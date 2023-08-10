@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
 {
+    //Classe para testar chamada de API
     public class AdviceService
     {
         private readonly SalesWebMvcContext _context;
