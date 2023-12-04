@@ -15,13 +15,12 @@ namespace SalesWebMvc.Controllers
         {
             _adviceService = adviceService;
         }
-        
-        
-        public async Task<IActionResult> Index()
+                
+        public IActionResult Index()
         {
             try
             {
-                var slip = await _adviceService.GetAdvice();                
+                var slip = _adviceService.GetAdvice();                
                 var advice = new AdviceFormViewModel(slip.Advice);
                 var viewModel = advice.Advices;
                 return View(viewModel);

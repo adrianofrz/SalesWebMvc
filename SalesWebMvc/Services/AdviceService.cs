@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SalesWebMvc.Models;
+using SalesWebMvc.Services.API;
 using SalesWebMvc.Services.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -20,19 +21,26 @@ namespace SalesWebMvc.Services
             _context = context;
         }
                
-        public async Task<Slip> GetAdvice()
+        public Slip GetAdvice()
         {
-            using (var client = new HttpClient())
+            string Url = "https://api.adviceslip.com/advice";
+            string RequestUri = "advice";   
+            Slip retorno ;
+
+            try
             {
-                Slip retorno ; 
-                var response = await client.GetAsync("https://api.adviceslip.com/advice");
-                string content = await response.Content.ReadAsStringAsync();
+                ApiRequest request = new ApiRequest(Url, RequestUri);
+
+                string content = request.ConectRequestAsync().ToString();
 
                 retorno = JsonConvert.DeserializeObject<Slip>(content);
                 return retorno;
             }
+            catch (Exception e)
+            {
+                return new Slip { Advice = new Advice { advice = "Erro: " + e.Message, Id = -1} };     
+            }
         }
-
 
         public async Task<Advice> ConectRequestAsync()
         {
